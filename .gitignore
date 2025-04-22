@@ -1,0 +1,24 @@
+# Temporary files
+*~
+*#
+.#*
+.DS_Store
+*.rs.bk
+
+# Environment/config
+.env
+.envrc
+.env.*
+.direnv/
+
+# Editor/IDE settings
+.vscode/
+.idea/
+.history/
+
+# Cache dirs
+.cache/
+**/static/
+
+# zk database
+.zk/notebook.db

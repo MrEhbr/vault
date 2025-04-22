@@ -1,0 +1,113 @@
+[note]
+language = "en"
+default-title = "Untitled"
+filename = "{{format-date now '%d-%m-%Y'}}-{{slug title}}"
+extension = "md"
+template = "default.md"
+id-charset = "alphanum"
+id-length = 6
+id-case = "lower"
+ignore = [
+  "Note Linking.md",
+  "Workflow.md",
+  "**/README.md",
+  "Common Second Brain Workflows.md",
+  "98 - Assets/**",
+  "99 - Meta/**",
+  ".obsidian",
+  ".zk",
+]
+
+[format.markdown]
+link-format = "wiki"
+link-encode-path = false
+link-drop-extension = true
+hashtags = true
+multiword-tags = true
+
+[tool]
+editor = "nvim"
+pager = "less -FIRX"
+fzf-preview = "bat -p --color always {-1}"
+
+[lsp.diagnostics]
+dead-link = "error"
+
+[group.daily]
+paths = ["07 - Daily"]
+[group.daily.note]
+filename = "{{format-date now}}"
+template = "daily.md"
+
+[group.project]
+paths = ["02 - Projects"]
+[group.project.note]
+template = "project.md"
+filename = "{{format-date now}} {{slug title}}"
+
+[group.permanent]
+paths = ["05 - Permanent"]
+[group.permanent.note]
+filename = "{{format-date now}} {{slug title}}"
+template = "permanent.md"
+
+[group.fleeting]
+paths = ["06 - Fleeting"]
+[group.fleeting.note]
+filename = "{{format-date now}} {{slug title}}"
+template = "fleeting.md"
+
+[group.area]
+paths = ["03 - Areas"]
+[group.area.note]
+filename = "{{format-date now}} {{slug title}}"
+template = "area.md"
+
+[group.resource]
+paths = ["04 - Resources"]
+[group.resource.note]
+filename = "{{format-date now}} {{slug title}}"
+template = "resource.md"
+
+[group.moc]
+paths = ["00 - Maps of Content"]
+[group.moc.note]
+filename = "{{format-date now}} {{slug title}}"
+template = "moc.md"
+
+[filter]
+recent = "--sort modified- --modified-after 'last two weeks'"
+daily = "--sort created '07 - Daily'"
+projects = "--sort created '02 - Projects'"
+permanent = '--sort created "05 - Permanent"'
+inbox = "'01 - Inbox'"
+
+[alias]
+# List notes
+ls = 'zk list $argv'
+# Edit the last modified note
+last = 'zk edit --limit 1 --sort modified- $argv'
+# Create a new note
+new = 'zk new "$ZK_NOTEBOOK_DIR/01 - Inbox" --title $argv'
+# Create a new daily note
+daily = 'zk new "$ZK_NOTEBOOK_DIR/07 - Daily" --group daily'
+# Create a new permanent note
+perm = 'zk new "$ZK_NOTEBOOK_DIR/05 - Permanent" --group permanent --title $argv'
+# Create a new fleeting note
+fleeting = 'zk new "$ZK_NOTEBOOK_DIR/06 - Fleeting" --group fleeting --title $argv'
+# Create a new area note
+area = 'find "$ZK_NOTEBOOK_DIR/03 - Areas" -mindepth 1 -maxdepth 1 -type d | fzf --prompt="Select area → " | xargs -r -I {} zk new "{}" --title $argv'
+# Create a new project note
+project = 'find "$ZK_NOTEBOOK_DIR/02 - Projects" -mindepth 1 -maxdepth 1 -type d | fzf --prompt="Select project → " | xargs -r -I {} zk new "{}" --title $argv'
+# Create a new resource note
+resource = 'find "$ZK_NOTEBOOK_DIR/04 - Resources" -mindepth 1 -maxdepth 1 -type d | fzf --prompt="Select resource → " | xargs -r -I {} zk new "{}" --title $argv'
+# Edit the notes selected interactively among the notes created the last two weeks.
+recent = 'zk edit --sort created- --created-after "last two weeks" --interactive'
+# Show a random note.
+lucky = 'zk list --quiet --format full --sort random --limit 1'
+# Returns the Git history for the notes found with the given arguments.
+hist = 'zk list --format path --delimiter0 --quiet $argv | xargs -t -0 git log --patch --'
+# Show the notes with the most words.
+wc = 'zk list --format "{{#style \"green\"}}{{word-count}}{{/style}}\t{{#style \"blue\"}}{{title}}{{/style}}" --sort word-count-'
+# Edit this configuration file
+conf = 'vi "$ZK_NOTEBOOK_DIR/.zk/config.toml"' 
